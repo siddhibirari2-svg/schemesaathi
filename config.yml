@@ -1,0 +1,19 @@
+# Cloudflare Named Tunnel Configuration for SchemeSaathi
+# Replace <TUNNEL_ID> with your Tunnel UUID (e.g. 58ca28bf-0653-4ab4-a318-586314633eff)
+# tunnel: <TUNNEL_ID>
+# credentials-file: C:\Users\Dell\.cloudflared\<TUNNEL_ID>.json
+
+ingress:
+  # Route traffic for your custom domain (e.g. app.schemesaathi.in or schemesaathi.in)
+  - hostname: app.schemesaathi.in
+    service: http://localhost:8000
+    originRequest:
+      noTLSVerify: false
+      http2Origin: true
+  - hostname: schemesaathi.in
+    service: http://localhost:8000
+    originRequest:
+      noTLSVerify: false
+      http2Origin: true
+  # Catch-all rule for 404
+  - service: http_status:404

@@ -1,0 +1,270 @@
+/* SchemeSaathi - Modern Accessible Theme & Component Styles */
+
+:root {
+  --primary: #1e40af;
+  --primary-light: #3b82f6;
+  --primary-dark: #1e3a8a;
+  --success: #059669;
+  --warning: #d97706;
+  --danger: #dc2626;
+  --bg-slate: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-slate);
+  color: var(--text-main);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
+.badge-verified {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.badge-warning {
+  background-color: #fffbeb;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.badge-danger {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.badge-info {
+  background-color: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #bfdbfe;
+}
+
+/* Timeline Stepper for Application Tracking */
+.stepper-container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+.stepper-container::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 24px;
+  right: 24px;
+  height: 4px;
+  background: #e2e8f0;
+  z-index: 1;
+}
+
+.stepper-step {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.stepper-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 3px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #64748b;
+  transition: all 0.3s ease;
+}
+
+.stepper-step.completed .stepper-circle {
+  background: #10b981;
+  border-color: #10b981;
+  color: #ffffff;
+}
+
+.stepper-step.active .stepper-circle {
+  background: #3b82f6;
+  border-color: #1d4ed8;
+  color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+}
+
+.stepper-step.rejected .stepper-circle {
+  background: #ef4444;
+  border-color: #b91c1c;
+  color: #ffffff;
+}
+
+.stepper-label {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* Card hover animation */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+}
+
+/* Modal and Drawer overlays */
+.modal-backdrop {
+  background-color: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 900 !important;
+}
+
+/* Strict Global Z-Index Hierarchy */
+.z-base { z-index: 0; }
+.z-elevated { z-index: 10; }
+.z-header { z-index: 100 !important; }
+.z-dropdown { z-index: 500 !important; }
+.z-tooltip { z-index: 600 !important; }
+.z-drawer { z-index: 800 !important; }
+.z-modal-backdrop { z-index: 900 !important; }
+.z-modal { z-index: 1000 !important; }
+
+/* Interactive Accessibility & Click Targets */
+button, a, input, select, textarea, [role="button"], label {
+  cursor: pointer;
+}
+button:disabled, input:disabled, select:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* Card Auto-flow & Word Break Prevention */
+.card-auto-flow {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  height: auto;
+}
+
+.break-word-safe {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Modal Dialog Sizing & Scroll */
+.modal-dialog-container {
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Responsive Table Wrapper */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Watermark */
+.demo-watermark {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* Custom Table */
+.comparison-table th, .comparison-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Responsive Viewport & Touch Optimization */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+@media (max-width: 640px) {
+  /* Accessible touch targets on small mobile screens */
+  button, select, input[type="button"], input[type="submit"] {
+    min-height: 36px;
+  }
+  
+  .tab-btn {
+    min-height: 36px;
+  }
+  
+  /* Ensure cards never overflow on narrow mobile screens */
+  .card-auto-flow {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Modal viewport fitting on narrow mobile */
+  .z-modal > div {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: calc(100vw - 1rem);
+  }
+  
+  /* Stepper horizontal scroll on small devices */
+  .stepper-container {
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+}
+

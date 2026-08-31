@@ -1,0 +1,2 @@
+# SchemeSaathi - High Performance Zero Dependency Architecture
+# Runs natively on Python standard library (http.server, sqlite3, json, urllib, secrets)

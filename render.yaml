@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: schemesaathi
+    env: python
+    buildCommand: "echo 'No build steps required'"
+    startCommand: "python server.py"
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: SCHEMESAATHI_ENV
+        value: production
+    disk:
+      name: schemesaathi-data
+      mountPath: /app/data
+      sizeGB: 1

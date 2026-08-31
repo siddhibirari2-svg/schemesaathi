@@ -1,0 +1,15 @@
+# Binaries & Virtual Environments
+cloudflared.exe
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+env/
+venv/
+
+# Scratch & Temporary Logs
+*.log
+scratch_*.html
+test_persistence_data/
