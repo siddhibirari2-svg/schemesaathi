@@ -112,6 +112,8 @@ class SchemeSaathiHandler(BaseHTTPRequestHandler):
             return self.send_file_response(os.path.join(BASE_DIR, "index.html"), "text/html; charset=utf-8")
         elif path == "/app.js":
             return self.send_file_response(os.path.join(BASE_DIR, "app.js"), "application/javascript; charset=utf-8")
+        elif path == "/i18n.js":
+            return self.send_file_response(os.path.join(BASE_DIR, "i18n.js"), "application/javascript; charset=utf-8")
         elif path == "/styles.css":
             return self.send_file_response(os.path.join(BASE_DIR, "styles.css"), "text/css; charset=utf-8")
 

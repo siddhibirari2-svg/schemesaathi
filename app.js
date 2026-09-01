@@ -109,6 +109,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function initApp() {
+  const savedLang = localStorage.getItem('schemesaathi_lang') || 'en';
+  if (window.i18n) {
+    window.i18n.setLanguage(savedLang, false);
+  }
   await loadDashboardData();
 }
 
@@ -1886,43 +1890,51 @@ function switchTab(tabId) {
   }
 }
 
-// Language Switcher
+// Language Switcher (15 Indian Languages)
 function changeLanguage(lang) {
   state.currentLang = lang;
-  const t = translations[lang] || translations.en;
+  state.aiLang = lang;
+  
+  if (window.i18n) {
+    window.i18n.setLanguage(lang);
+  }
 
-  const fraudBanner = document.getElementById('fraud-banner-text');
-  if (fraudBanner) fraudBanner.innerHTML = `<strong>SchemeSaathi:</strong> ${t.safetyNotice}`;
-  
-  const hcTitle = document.getElementById('hc-title');
-  if (hcTitle) hcTitle.textContent = t.healthCheckTitle;
-  
-  const hcSub = document.getElementById('hc-subtitle');
-  if (hcSub) hcSub.textContent = t.healthCheckSubtitle;
-  
-  const allSchemesLabel = document.getElementById('tab-label-all-schemes');
-  if (allSchemesLabel) allSchemesLabel.textContent = t.tabAllSchemes || "All Government Schemes";
-  
-  const tabSchemes = document.getElementById('tab-label-schemes');
-  if (tabSchemes) tabSchemes.textContent = t.tabSchemes;
-  
-  const tabVault = document.getElementById('tab-label-vault');
-  if (tabVault) tabVault.textContent = t.tabVault;
-  
-  const tabComp = document.getElementById('tab-label-comparison');
-  if (tabComp) tabComp.textContent = t.tabComparison;
-  
-  const tabApps = document.getElementById('tab-label-applications');
-  if (tabApps) tabApps.textContent = t.tabApplications;
-  
-  const tabLife = document.getElementById('tab-label-life-events');
-  if (tabLife) tabLife.textContent = t.tabLifeEvents;
-  
-  const tabFraud = document.getElementById('tab-label-fraud') || document.getElementById('tab-label-fraud-shield');
-  if (tabFraud) tabFraud.textContent = t.tabFraud;
-  
-  const tabPriv = document.getElementById('tab-label-privacy');
-  if (tabPriv) tabPriv.textContent = t.tabPrivacy;
+  // Update voice speech recognition language if recording
+  const langMap = {
+    'en': 'en-IN', 'hi': 'hi-IN', 'mr': 'mr-IN', 'bn': 'bn-IN',
+    'gu': 'gu-IN', 'ta': 'ta-IN', 'te': 'te-IN', 'kn': 'kn-IN',
+    'ml': 'ml-IN', 'pa': 'pa-IN', 'or': 'or-IN', 'as': 'as-IN',
+    'ur': 'ur-IN', 'sa': 'sa-IN', 'kok': 'kok-IN'
+  };
+  if (state.recognition) {
+    state.recognition.lang = langMap[lang] || 'en-IN';
+  }
+
+  // Safely re-render active dynamic components only if data is already loaded
+  if (state.healthCheck && Object.keys(state.healthCheck).length > 0) {
+    renderHealthCheck();
+    renderNextAction();
+  }
+  if (state.rankedSchemes && state.rankedSchemes.length > 0) {
+    renderSchemes();
+  }
+  if (state.allEligibleSchemes && state.allEligibleSchemes.length > 0) {
+    renderAllEligibleSchemes();
+  }
+  if (state.documents && state.documents.length > 0) {
+    renderVault();
+  }
+  if (state.applications && state.applications.length > 0) {
+    renderApplications();
+  }
+
+  // Persist preference to user profile in backend if logged in
+  if (state.currentUser && state.currentUserId) {
+    apiRequest('/api/profile', {
+      method: 'POST',
+      body: JSON.stringify({ preferred_language: lang })
+    }).catch(() => {});
+  }
 }
 
 // Utility: HTML Escaping
@@ -2677,54 +2689,7 @@ function setAllEligiblePage(newPage) {
 // ==================== 21. MULTI-LINGUAL VOICE COPILOT (STT & TTS) ====================
 
 function setAiLanguage(lang) {
-  state.aiLang = lang;
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    if (btn.id === `lang-btn-${lang}`) {
-      btn.className = "lang-btn active px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-600 text-white";
-    } else {
-      btn.className = "lang-btn px-2 py-0.5 rounded text-[11px] font-bold text-slate-600 hover:bg-indigo-100";
-    }
-  });
-
-  const welcomeTitle = document.getElementById('ai-welcome-title');
-  const welcomeDesc = document.getElementById('ai-welcome-desc');
-  const presetContainer = document.getElementById('ai-preset-chips');
-  const inputEl = document.getElementById('ai-input');
-
-  if (lang === 'mr') {
-    if (welcomeTitle) welcomeTitle.textContent = "नमस्कार! मी तुमचा स्कीम साथी AI मार्गदर्शक आहे.";
-    if (welcomeDesc) welcomeDesc.textContent = "मी तुमच्या नागरिक प्रोफाइल आणि व्हॉल्ट दस्तऐवजांनुसार पात्र योजना शोधतो. मी केवळ अधिकृत सरकारी माहिती (.gov.in) वापरतो.";
-    if (inputEl) inputEl.placeholder = "योजना, कागदपत्रे, किंवा अर्जाबद्दल विचारा...";
-    if (presetContainer) {
-      presetContainer.innerHTML = `
-        <button onclick="askAiPreset('मला कोणत्या योजना मिळतील?')" class="bg-white border border-indigo-200 text-indigo-800 px-2 py-1 rounded-full font-semibold hover:bg-indigo-50">"मला कोणत्या योजना मिळतील?"</button>
-        <button onclick="askAiPreset('मी आधी कोणत्या योजनेसाठी अर्ज करावा?')" class="bg-white border border-indigo-200 text-indigo-800 px-2 py-1 rounded-full font-semibold hover:bg-indigo-50">"मी आधी कोणत्या योजनेसाठी अर्ज करावा?"</button>
-        <button onclick="askAiPreset('माझे कोणते कागदपत्र अपूर्ण आहे?')" class="bg-white border border-indigo-200 text-indigo-800 px-2 py-1 rounded-full font-semibold hover:bg-indigo-50">"माझे कोणते कागदपत्र अपूर्ण आहे?"</button>
-      `;
-    }
-  } else if (lang === 'hi') {
-    if (welcomeTitle) welcomeTitle.textContent = "नमस्ते! मैं आपका स्कीम साथी AI सहायक हूँ।";
-    if (welcomeDesc) welcomeDesc.textContent = "मैं आपकी प्रोफ़ाइल और दस्तावेज़ वॉल्ट के आधार पर सरकारी योजनाओं की जानकारी देता हूँ। मैं केवल सत्यापित सरकारी डेटा (.gov.in) का उपयोग करता हूँ।";
-    if (inputEl) inputEl.placeholder = "पात्र योजनाओं, आवश्यक दस्तावेज़ों के बारे में पूछें...";
-    if (presetContainer) {
-      presetContainer.innerHTML = `
-        <button onclick="askAiPreset('मुझे कौन सी सरकारी योजनाएं मिल सकती हैं?')" class="bg-white border border-indigo-200 text-indigo-800 px-2 py-1 rounded-full font-semibold hover:bg-indigo-50">"मुझे कौन सी योजनाएं मिल सकती हैं?"</button>
-        <button onclick="askAiPreset('मुझे सबसे पहले किस योजना में आवेदन करना चाहिए?')" class="bg-white border border-indigo-200 text-indigo-800 px-2 py-1 rounded-full font-semibold hover:bg-indigo-50">"पहले किसमें आवेदन करूँ?"</button>
-        <button onclick="askAiPreset('मेरा कौन सा दस्तावेज़ बाकी है?')" class="bg-white border border-indigo-200 text-indigo-800 px-2 py-1 rounded-full font-semibold hover:bg-indigo-50">"कौन सा दस्तावेज़ बाकी है?"</button>
-      `;
-    }
-  } else {
-    if (welcomeTitle) welcomeTitle.textContent = "Namaste! I am your personal SchemeSaathi AI Copilot.";
-    if (welcomeDesc) welcomeDesc.textContent = "I am aware of your profile, missing documents, and eligible schemes. I strictly use verified official government data (.gov.in) and never hallucinate non-existent programs or links.";
-    if (inputEl) inputEl.placeholder = "Ask about eligible schemes, missing docs, appeals...";
-    if (presetContainer) {
-      presetContainer.innerHTML = `
-        <button onclick="askAiPreset('What schemes am I eligible for?')" class="bg-white border border-indigo-200 text-indigo-800 px-2 py-1 rounded-full font-semibold hover:bg-indigo-50">"What schemes am I eligible for?"</button>
-        <button onclick="askAiPreset('Which scheme should I apply for first?')" class="bg-white border border-indigo-200 text-indigo-800 px-2 py-1 rounded-full font-semibold hover:bg-indigo-50">"Which scheme should I apply for first?"</button>
-        <button onclick="askAiPreset('What document am I missing?')" class="bg-white border border-indigo-200 text-indigo-800 px-2 py-1 rounded-full font-semibold hover:bg-indigo-50">"What document am I missing?"</button>
-      `;
-    }
-  }
+  changeLanguage(lang);
 }
 
 function toggleVoiceAudioOutput() {

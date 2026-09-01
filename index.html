@@ -120,8 +120,20 @@
         <!-- Language Selector -->
         <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-white border border-slate-300 text-slate-700 text-xs font-bold rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-blue-500">
           <option value="en">English</option>
-          <option value="hi">हिंदी (Hindi)</option>
+          <option value="hi">हिन्दी (Hindi)</option>
           <option value="mr">मराठी (Marathi)</option>
+          <option value="bn">বাংলা (Bengali)</option>
+          <option value="gu">ગુજરાતી (Gujarati)</option>
+          <option value="ta">தமிழ் (Tamil)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+          <option value="kn">ಕನ್ನಡ (Kannada)</option>
+          <option value="ml">മലയാളം (Malayalam)</option>
+          <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+          <option value="or">ଓଡ଼ିଆ (Odia)</option>
+          <option value="as">অসমীয়া (Assamese)</option>
+          <option value="ur">اردو (Urdu)</option>
+          <option value="sa">संस्कृतम् (Sanskrit)</option>
+          <option value="kok">कोंकणी (Konkani)</option>
         </select>
 
         <!-- AI Assistant Button -->
@@ -367,7 +379,7 @@
           <button type="button" onclick="toggleProfileForm()" class="px-4 py-2 rounded-xl font-bold text-slate-600 hover:bg-slate-100 text-xs">Cancel</button>
           <button type="submit" class="px-5 py-2 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 text-xs shadow-md flex items-center gap-1.5">
             <i class="fas fa-check"></i>
-            <span>Save Profile & Recalculate Schemes</span>
+            <span data-i18n="ui.saveProfileRecalculate">Save Profile & Recalculate Schemes</span>
           </button>
         </div>
       </form>
@@ -380,38 +392,38 @@
       <nav class="flex items-center gap-1 min-w-max sm:min-w-0 sm:flex-wrap" aria-label="Tabs">
         <button onclick="switchTab('tab-all-schemes')" id="btn-tab-all-schemes" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-bold text-slate-700 hover:bg-slate-100 flex items-center gap-2 transition">
           <i class="fas fa-grid-2 text-blue-600"></i>
-          <span id="tab-label-all-schemes">All Government Schemes</span>
+          <span id="tab-label-all-schemes" data-i18n="nav.allSchemes">All Government Schemes</span>
           <span id="all-schemes-badge" class="bg-blue-100 text-blue-800 text-[10px] px-1.5 py-0.2 rounded-full font-bold">14</span>
         </button>
         <button onclick="switchTab('tab-schemes')" id="btn-tab-schemes" class="tab-btn active px-3.5 py-2 rounded-lg text-xs font-bold text-blue-700 bg-blue-50 flex items-center gap-2 transition">
           <i class="fas fa-bullseye-arrow text-emerald-600"></i>
-          <span id="tab-label-schemes">For Me (Eligible)</span>
+          <span id="tab-label-schemes" data-i18n="nav.forMe">For Me (Eligible)</span>
         </button>
         <button onclick="switchTab('tab-vault')" id="btn-tab-vault" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 flex items-center gap-2 transition">
           <i class="fas fa-folder-open text-amber-600"></i>
-          <span id="tab-label-vault">My Documents</span>
+          <span id="tab-label-vault" data-i18n="nav.vault">My Documents</span>
         </button>
         <button onclick="switchTab('tab-applications')" id="btn-tab-applications" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 flex items-center gap-2 transition">
           <i class="fas fa-clipboard-list text-purple-600"></i>
-          <span id="tab-label-applications">My Applications</span>
+          <span id="tab-label-applications" data-i18n="nav.applications">My Applications</span>
           <span id="app-count-badge" class="bg-purple-100 text-purple-700 text-[10px] px-1.5 py-0.2 rounded-full font-bold">1</span>
         </button>
         <button onclick="switchTab('tab-comparison')" id="btn-tab-comparison" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 flex items-center gap-2 transition">
           <i class="fas fa-code-compare text-indigo-600"></i>
-          <span id="tab-label-comparison">Compare</span>
+          <span id="tab-label-comparison" data-i18n="nav.compare">Compare</span>
           <span id="compare-badge" class="hidden bg-blue-600 text-white text-[10px] px-1.5 py-0.2 rounded-full font-bold">0</span>
         </button>
         <button onclick="switchTab('tab-life-events')" id="btn-tab-life-events" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 flex items-center gap-2 transition">
           <i class="fas fa-rotate text-cyan-600"></i>
-          <span id="tab-label-life-events">Life-Events</span>
+          <span id="tab-label-life-events" data-i18n="nav.lifeEvents">Life-Events</span>
         </button>
         <button onclick="switchTab('tab-fraud-shield')" id="btn-tab-fraud-shield" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 flex items-center gap-2 transition">
           <i class="fas fa-shield-halved text-rose-600"></i>
-          <span id="tab-label-fraud-shield">Fraud Shield</span>
+          <span id="tab-label-fraud-shield" data-i18n="nav.fraudShield">Fraud Shield</span>
         </button>
         <button onclick="switchTab('tab-privacy')" id="btn-tab-privacy" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 flex items-center gap-2 transition">
           <i class="fas fa-lock text-emerald-600"></i>
-          <span id="tab-label-privacy">My Privacy</span>
+          <span id="tab-label-privacy" data-i18n="nav.privacy">My Privacy</span>
         </button>
         <button onclick="switchTab('tab-admin')" id="btn-tab-admin" class="tab-btn px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 flex items-center gap-2 transition ml-auto">
           <i class="fas fa-shield-check text-blue-600"></i>
@@ -441,10 +453,10 @@
       <div class="flex items-center gap-2 shrink-0 w-full md:w-auto">
         <button onclick="openOnboardingModal()" class="flex-1 md:flex-initial bg-amber-400 hover:bg-amber-300 text-slate-950 px-4 py-2 rounded-xl text-xs font-black transition shadow-md flex items-center justify-center gap-1.5">
           <i class="fas fa-wand-magic-sparkles"></i>
-          <span>Start My Profile</span>
+          <span data-i18n="ui.startMyProfile">Start My Profile</span>
         </button>
         <button onclick="switchTab('tab-all-schemes')" class="flex-1 md:flex-initial bg-white/10 hover:bg-white/20 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1">
-          <span>Explore All Schemes</span>
+          <span data-i18n="ui.exploreAllSchemes">Explore All Schemes</span>
         </button>
       </div>
     </div>
@@ -470,11 +482,11 @@
           <div class="flex items-center gap-2">
             <button onclick="openReportMissingSchemeModal()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
               <i class="fas fa-bullhorn text-blue-600"></i>
-              <span>Report Missing Scheme</span>
+              <span data-i18n="ui.reportMissingScheme">Report Missing Scheme</span>
             </button>
             <button onclick="switchTab('tab-schemes')" class="bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-1.5">
               <i class="fas fa-user-check"></i>
-              <span>Find Schemes For Me</span>
+              <span data-i18n="ui.findSchemesForMe">Find Schemes For Me</span>
             </button>
           </div>
         </div>
@@ -2752,9 +2764,23 @@
         <span>Language:</span>
       </div>
       <div class="flex items-center gap-1">
-        <button onclick="setAiLanguage('en')" id="lang-btn-en" class="lang-btn active px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-600 text-white">English</button>
-        <button onclick="setAiLanguage('hi')" id="lang-btn-hi" class="lang-btn px-2 py-0.5 rounded text-[11px] font-bold text-slate-600 hover:bg-indigo-100">हिन्दी</button>
-        <button onclick="setAiLanguage('mr')" id="lang-btn-mr" class="lang-btn px-2 py-0.5 rounded text-[11px] font-bold text-slate-600 hover:bg-indigo-100">मराठी</button>
+        <select id="ai-lang-select" onchange="changeLanguage(this.value)" class="bg-white border border-indigo-200 text-indigo-900 text-[11px] font-bold rounded-lg px-2 py-1">
+          <option value="en">English</option>
+          <option value="hi">हिन्दी (Hindi)</option>
+          <option value="mr">मराठी (Marathi)</option>
+          <option value="bn">বাংলা (Bengali)</option>
+          <option value="gu">ગુજરાતી (Gujarati)</option>
+          <option value="ta">தமிழ் (Tamil)</option>
+          <option value="te">తెలుగు (Telugu)</option>
+          <option value="kn">ಕನ್ನಡ (Kannada)</option>
+          <option value="ml">മലയാളം (Malayalam)</option>
+          <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+          <option value="or">ଓଡ଼ିଆ (Odia)</option>
+          <option value="as">অসমীয়া (Assamese)</option>
+          <option value="ur">اردو (Urdu)</option>
+          <option value="sa">संस्कृतम् (Sanskrit)</option>
+          <option value="kok">कोंकणी (Konkani)</option>
+        </select>
       </div>
     </div>
 
@@ -2800,6 +2826,7 @@
   </div>
 
   <!-- Scripts -->
+  <script src="/i18n.js"></script>
   <script src="/app.js?v=202608310218"></script>
 </body>
 </html>
