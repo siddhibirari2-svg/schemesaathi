@@ -1898,10 +1898,6 @@ function switchTab(tabId) {
 function changeLanguage(lang) {
   state.currentLang = lang;
   state.aiLang = lang;
-  
-  if (window.i18n) {
-    window.i18n.setLanguage(lang);
-  }
 
   // Update voice speech recognition language if recording
   const langMap = {
@@ -1930,6 +1926,11 @@ function changeLanguage(lang) {
   }
   if (state.applications && state.applications.length > 0) {
     renderApplications();
+  }
+
+  // Full UI & DOM Translation
+  if (window.i18n) {
+    window.i18n.setLanguage(lang);
   }
 
   // Persist preference to user profile in backend if logged in
