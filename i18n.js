@@ -714,6 +714,19 @@
   }
 };
 
+
+  const KEY_MAP = {
+    "nav.allSchemes": "All Government Schemes",
+    "nav.forMe": "For Me (Eligible)",
+    "nav.vault": "My Documents",
+    "nav.applications": "My Applications",
+    "nav.compare": "Comparison",
+    "nav.lifeEvents": "Life-Events",
+    "nav.fraudShield": "Fraud Shield",
+    "nav.privacy": "My Privacy",
+    "nav.admin": "Admin Registry"
+  };
+
   class SchemeSaathiI18n {
     constructor() {
       this.currentLang = localStorage.getItem('schemesaathi_lang') || 'en';
@@ -722,9 +735,13 @@
 
     t(key, fallback = '') {
       if (!key) return fallback;
-      const map = this.phraseMaps[this.currentLang] || this.phraseMaps.en;
-      if (map && map[key]) return map[key];
-      return fallback || key;
+      const lang = this.currentLang || 'en';
+      const targetMap = this.phraseMaps[lang] || this.phraseMaps.en || {};
+      if (targetMap[key]) return targetMap[key];
+      if (KEY_MAP[key] && targetMap[KEY_MAP[key]]) {
+        return targetMap[KEY_MAP[key]];
+      }
+      return fallback || (KEY_MAP[key] ? KEY_MAP[key] : key);
     }
 
     translateNode(node, lang) {
