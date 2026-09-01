@@ -1632,12 +1632,16 @@ async function handleAiSubmit(event) {
   try {
     const res = await apiRequest('/api/ai/ask', {
       method: 'POST',
-      body: JSON.stringify({ query, lang: state.aiLang })
+      body: JSON.stringify({ query, lang: state.aiLang || state.currentLang || 'en' })
     });
+
+    let formattedAnswer = escapeHtml(res.answer || '')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\[(.*?)\]\((https?:\/\/[^\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="text-blue-600 underline font-semibold hover:text-blue-800">$1</a>');
 
     botBubble.innerHTML = `
       <div class="space-y-2">
-        <p class="whitespace-pre-line leading-relaxed">${escapeHtml(res.answer)}</p>
+        <div class="whitespace-pre-line leading-relaxed">${formattedAnswer}</div>
         <div class="pt-2 border-t border-indigo-200/60 text-[11px] text-indigo-800 flex items-center justify-between">
           <span>✓ Official: <strong>${escapeHtml(res.official_source)}</strong></span>
           <span>Verified: ${escapeHtml(res.last_verified)}</span>
@@ -1648,7 +1652,7 @@ async function handleAiSubmit(event) {
 
     // Trigger Speech-to-Audio Read Aloud if enabled
     if (state.aiVoiceAudio && res.answer) {
-      speakText(res.answer, state.aiLang);
+      speakText(res.answer, state.aiLang || state.currentLang || 'en');
     }
   } catch (e) {
     botBubble.textContent = "I could not verify this information from an official source.";
